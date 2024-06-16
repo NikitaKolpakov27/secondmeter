@@ -35,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Timer? timer;
   Duration duration = Duration();
+  bool isTimerStarted = false;
 
   @override
   void initState() {
@@ -42,22 +43,30 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void addTime() {
-    const addSeconds = 1;
 
-    setState(() {
-      final newSeconds = duration.inSeconds + addSeconds;
-      duration = Duration(seconds: newSeconds);
-    });
+    if (isTimerStarted) {
+      const addSeconds = 1;
+      setState(() {
+        final newSeconds = duration.inSeconds + addSeconds;
+        duration = Duration(seconds: newSeconds);
+        isTimerStarted = true;
+      });
+    }
+
   }
 
   void stopTimer() {
     timer?.cancel();
+    setState(() {
+      isTimerStarted = false;
+    });
   }
 
   void resetTimer() {
     timer?.cancel();
     setState(() {
       duration = Duration();
+      isTimerStarted = false;
     });
   }
 
